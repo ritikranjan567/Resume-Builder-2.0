@@ -23,7 +23,10 @@ module ResumeBuilder
     if age == 0
       puts "Age can't be that..."
       return false
-    elsif age < 18
+    elsif !is_int?(age)
+      puts "Not integer.."
+      false    
+    elsif age.to_i < 18
       puts "You are underage. Registration not allowed."
       return false
     else

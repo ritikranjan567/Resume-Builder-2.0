@@ -1,16 +1,12 @@
 module ResumeBuilder
   class User
-    self.extend Validation
+    include Validation
     attr_accessor :first_name, :last_name, :gender, :age, :phone
 
-    def initialize(first_name = "", last_name = "", gender = "", age = 0, phone = "")
-      @first_name = first_name
-      @last_name = last_name
-      @gender = gender
-      @age = age
-      @phone = phone
+    
+    def initialize(first_name = "", last_name = "", gender = "", age = "", phone = "")
+      @first_name, @last_name, @gender, @age, @phone = first_name, last_name, gender, age, phone
     end
-
     #def valid_user?
     #  valid_name?(@first_name) &&
     #  valid_name?(@last_name) &&
@@ -19,7 +15,7 @@ module ResumeBuilder
     #  valid_phone_number?(@phone)
     #end
 
-    def self.get_first_name
+    def get_first_name
       name = ""
       while true do
         print "First Name: "
@@ -29,7 +25,7 @@ module ResumeBuilder
       return name
     end
 
-    def self.get_last_name
+    def get_last_name
       name = ""
       while true do
         print "Last Name: "
@@ -39,7 +35,7 @@ module ResumeBuilder
       return name
     end
 
-    def self.get_gender
+    def get_gender
       gender = ""
       while true do
         print "Gender: "
@@ -49,17 +45,17 @@ module ResumeBuilder
       return gender
     end
 
-    def self.get_age
+    def get_age
       age = 0
       while true do
         print "Age: "
-        age = gets.strip.to_i
+        age = gets.strip
         break if valid_age?(age)
       end
       return age
     end
 
-    def self.get_phone
+    def get_phone
       phone = ""
       while true do
         print "10 digit Mobile Number: "

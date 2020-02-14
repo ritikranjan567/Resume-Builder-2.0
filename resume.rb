@@ -34,14 +34,13 @@ module ResumeBuilder
     end
 
     def self.build
+      user = User.new
+      user.first_name = user.get_first_name
+      user.last_name = user.get_last_name
+      user.gender = user.get_gender
+      user.age = user.get_age
+      user.phone = user.get_phone
 
-      first_name = User.get_first_name
-      last_name = User.get_last_name
-      gender = User.get_gender
-      age = User.get_age
-      phone = User.get_phone
-
-      user_data = User.new(first_name, last_name, gender, age, phone)
 
       #if !user_data.valid_user?
       #  puts "ERROR: Please follow above instruction.."
@@ -51,13 +50,13 @@ module ResumeBuilder
       #  puts "All ok.."
       #end
 
-      user_data.gender = user_data.gender[0].upcase   #just save 'F' or 'M' as gender data in file
+      user.gender = user.gender[0].upcase   #just save 'F' or 'M' as gender data in file
 
-      puts "Press ENTER to save OR ctrl + c to abort"
+      puts "Press ENTER to save OR ctrl + Z to abort"
       gets.chomp
-      self.save_to_file(user_data)
+      self.save_to_file(user)
 
-      puts "Press ENTER to add another profile OR ctrl + c to abort"
+      puts "Press ENTER to add another profile OR ctrl + Z to abort"
       gets.chomp
       self.build
       return nill
