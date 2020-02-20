@@ -1,8 +1,6 @@
+require 'csv'
 require './validation.rb'
 require './user.rb'
 require './resume.rb'
 
-include ResumeBuilder
-
-Resume.build
-
+ResumeBuilder::Resume.build

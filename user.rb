@@ -3,85 +3,35 @@ module ResumeBuilder
     include Validation
     attr_accessor :first_name, :last_name, :gender, :age, :phone
 
-    
-    def initialize(first_name = "", last_name = "", gender = "", age = "", phone = "")
-      @first_name, @last_name, @gender, @age, @phone = first_name, last_name, gender, age, phone
-    end
-    #def valid_user?
-    #  valid_name?(@first_name) &&
-    #  valid_name?(@last_name) &&
-    #  valid_gender?(@gender) &&
-    #  valid_age?(@age) &&
-    #  valid_phone_number?(@phone)
-    #end
-
-    def get_first_name
-      name = ""
-      while true do
-        print "First Name: "
-        name = gets.strip
-        break if valid_name?(name)
-      end
-      return name
-    end
-
-    def get_last_name
-      name = ""
-      while true do
-        print "Last Name: "
-        name = gets.strip
-        break if valid_name?(name)
-      end
-      return name
-    end
-
-    def get_gender
-      gender = ""
-      while true do
-        print "Gender: "
-        gender = gets.strip
-        break if valid_gender?(gender)
-      end
-      return gender
-    end
-
-    def get_age
-      age = 0
-      while true do
-        print "Age: "
-        age = gets.strip
-        break if valid_age?(age)
-      end
-      return age
-    end
-
-    def get_phone
-      phone = ""
-      while true do
-        print "10 digit Mobile Number: "
-        phone = gets.strip
-        break if valid_phone_number?(phone)
-      end
-      return phone
-    end
-
-    def data_array
+    def all_data
       user_data = Array.new
       user_data << @first_name << @last_name << @gender << @age << @phone
-      return user_data
     end
 
-    def hash
-      @phone.hash
+    def save
+      raise "\nError: User with same phone Number already exist\n" if !unique_user_mobile_num?
+      f = CSV.open("user_data.csv", "a+")
+      f << self.all_data
     end
 
-    def ==(other_user)
-      self.hash == other_user.hash
+    private
+
+    def unique_user_mobile_num?
+      true if !all_existing_phone.include? @phone
     end
 
-    def eql?(other_user)
-      self == other_user
+    def all_existing_phone
+      begin
+        phone_numbers = Array.new
+        csv_data = CSV.read("user_data.csv")
+        csv_data.each do |data|
+          phone_numbers.push(data[data.length - 1])
+        end
+        phone_numbers
+      rescue => exception
+        CSV.open("user_data.csv", "w").close
+        retry
+      end
     end
-
   end
 end
